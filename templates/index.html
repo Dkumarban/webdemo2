@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Team Management System</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>Team Management System</h1>
+      <p>Organize your teams, keep track of members, and collaborate effectively.</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Teams</h2>
+          <button id="refreshTeams" class="button button-secondary" type="button">Refresh</button>
+        </div>
+        <ul id="teamList" class="team-list" aria-live="polite"></ul>
+
+        <form id="createTeamForm" class="card">
+          <h3>Create a new team</h3>
+          <label class="form-field">
+            <span>Team name</span>
+            <input type="text" name="name" placeholder="Product Engineering" required />
+          </label>
+          <label class="form-field">
+            <span>Description</span>
+            <textarea name="description" rows="3" placeholder="What does this team do?"></textarea>
+          </label>
+          <button class="button" type="submit">Create team</button>
+        </form>
+      </section>
+
+      <section class="panel" id="teamDetailsPanel" hidden>
+        <div class="panel-header">
+          <h2 id="teamDetailsTitle">Team details</h2>
+          <div>
+            <button id="deleteTeamButton" class="button button-danger" type="button">Delete team</button>
+          </div>
+        </div>
+
+        <form id="updateTeamForm" class="card">
+          <h3>Update team</h3>
+          <label class="form-field">
+            <span>Team name</span>
+            <input type="text" name="name" required />
+          </label>
+          <label class="form-field">
+            <span>Description</span>
+            <textarea name="description" rows="3"></textarea>
+          </label>
+          <button class="button button-secondary" type="submit">Save changes</button>
+        </form>
+
+        <section class="card">
+          <div class="card-header">
+            <h3>Members</h3>
+            <span id="memberCount" class="tag">0</span>
+          </div>
+          <ul id="memberList" class="member-list"></ul>
+        </section>
+
+        <form id="addMemberForm" class="card">
+          <h3>Add member</h3>
+          <div class="grid">
+            <label class="form-field">
+              <span>Name</span>
+              <input type="text" name="name" placeholder="Alex Rivera" required />
+            </label>
+            <label class="form-field">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="alex@example.com" required />
+            </label>
+          </div>
+          <label class="form-field">
+            <span>Role</span>
+            <input type="text" name="role" placeholder="Team Lead" />
+          </label>
+          <button class="button" type="submit">Add member</button>
+        </form>
+      </section>
+
+      <section class="panel empty-state" id="emptyState">
+        <h2>Select a team</h2>
+        <p>Choose a team from the list to see members and edit details.</p>
+      </section>
+    </main>
+
+    <template id="teamListItemTemplate">
+      <li class="team-list-item">
+        <button class="team-select" type="button"></button>
+        <span class="team-meta"></span>
+      </li>
+    </template>
+
+    <template id="memberListItemTemplate">
+      <li class="member-item">
+        <div>
+          <h4></h4>
+          <p class="member-email"></p>
+          <p class="member-role"></p>
+          <p class="member-joined"></p>
+        </div>
+        <div class="member-actions">
+          <button class="button button-secondary member-edit" type="button">Edit</button>
+          <button class="button button-danger member-delete" type="button">Remove</button>
+        </div>
+      </li>
+    </template>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+  </body>
+</html>
